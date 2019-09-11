@@ -1,17 +1,28 @@
-import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import React, { useState } from 'react';
+import { Container, Row, Col, InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
 import { connect } from 'react-redux';
 import List from './ListComponents/List';
 
 export const Dashboard = (props) => {
+	const [ item, setItem ] = useState('');
+
 	const lists = props.lists;
 	let list = lists.map((i, index) => {
 		return (
 			<Col key={index.toString()}>
-				<List data={i} />
+				<List data={i.list} index={index} />
 			</Col>
 		);
 	});
+
+	const handleClick = () => {
+		props.addList(item);
+		setItem('');
+	};
+
+	const handleKeyPress = (e) => {
+		if (e.key === 'Enter') return handleClick();
+	};
 
 	return (
 		<div>
@@ -25,7 +36,22 @@ export const Dashboard = (props) => {
 					<Col>Title</Col>
 					<Col>Title</Col>
 				</Row>
-				<Row>{list}</Row>
+				<Row>
+					{list}
+					<Col>
+						<InputGroup>
+							<Input
+								onChange={(e) => setItem(e.target.value)}
+								onKeyPress={handleKeyPress}
+								value={item}
+								placeholder="Add a list"
+							/>
+							<InputGroupAddon addonType="append">
+								<InputGroupText onClick={handleClick}>+</InputGroupText>
+							</InputGroupAddon>
+						</InputGroup>
+					</Col>
+				</Row>
 			</Container>
 		</div>
 	);
@@ -37,4 +63,16 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps)(Dashboard);
+const mapDispatchToProps = (dispatch) => {
+	return {
+		addList: (item) =>
+			dispatch({
+				type: 'ADD_LIST',
+				payload: {
+					listItem: item
+				}
+			})
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
