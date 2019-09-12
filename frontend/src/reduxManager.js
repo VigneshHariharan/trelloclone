@@ -2,9 +2,9 @@ import { createStore } from 'redux';
 
 const initialState = {
 	lists: [
-		// { list: 'title 1', cards: [ 'cons', 'pros', 'adv' ] },
-		// { list: 'title 2', cards: [ 'cons', 'pros', 'adv' ] },
-		// { list: 'title 3', cards: [ 'cons', 'pros', 'adv' ] }
+		{ list: 'title 1', cards: [ 'cons', 'pros', 'adv' ] },
+		{ list: 'title 2', cards: [ 'cons', 'pros', 'adv' ] },
+		{ list: 'title 3', cards: [ 'cons', 'pros', 'adv' ] }
 	]
 };
 

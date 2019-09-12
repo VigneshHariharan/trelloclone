@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
+import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
+import { Col, Row } from 'antd';
+
 import { connect } from 'react-redux';
 import List from './ListComponents/List';
 
@@ -9,15 +11,24 @@ export const Dashboard = (props) => {
 	const lists = props.lists;
 	let list = lists.map((i, index) => {
 		return (
-			<Col key={index.toString()}>
+			<Col
+				style={{
+					flex: '0 0 auto',
+					width: '250px',
+					margin: '20px'
+				}}
+				key={index.toString()}
+			>
 				<List data={i.list} index={index} />
 			</Col>
 		);
 	});
 
 	const handleClick = () => {
-		props.addList(item);
-		setItem('');
+		if (item !== '') {
+			props.addList(item);
+			setItem('');
+		}
 	};
 
 	const handleKeyPress = (e) => {
@@ -26,33 +37,34 @@ export const Dashboard = (props) => {
 
 	return (
 		<div>
-			<Container>
-				<Row>
-					<Col>{/* Add a Title Bar here */}</Col>
-				</Row>
+			<Row>
+				<Col>{/* Add a Title Bar here */}</Col>
+			</Row>
 
-				<Row>
-					<Col>Title</Col>
-					<Col>Title</Col>
-					<Col>Title</Col>
-				</Row>
-				<Row>
-					{list}
-					<Col>
-						<InputGroup>
-							<Input
-								onChange={(e) => setItem(e.target.value)}
-								onKeyPress={handleKeyPress}
-								value={item}
-								placeholder="Add a list"
-							/>
-							<InputGroupAddon addonType="append">
-								<InputGroupText onClick={handleClick}>+</InputGroupText>
-							</InputGroupAddon>
-						</InputGroup>
-					</Col>
-				</Row>
-			</Container>
+			<Col>NavBar</Col>
+			<Row />
+
+			<div
+				style={{
+					display: 'flex',
+					flexWrap: 'nowrap',
+					overflowX: 'auto'
+				}}
+			>
+				{list}
+				<InputGroup style={{ width: '250px', height: '38px', margin: '20px' }}>
+					<Input
+						onChange={(e) => setItem(e.target.value)}
+						onKeyPress={handleKeyPress}
+						value={item}
+						placeholder="Add a list"
+					/>
+					<InputGroupAddon addonType="append">
+						<InputGroupText onClick={handleClick}>+</InputGroupText>
+					</InputGroupAddon>
+				</InputGroup>
+			</div>
+			<br />
 		</div>
 	);
 };

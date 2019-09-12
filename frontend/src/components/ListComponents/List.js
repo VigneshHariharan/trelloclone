@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Col, InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
+import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
+import { Col } from 'antd';
 
 import Card from './Card';
 
@@ -8,7 +9,7 @@ export const List = (props) => {
 	const [ item, setItem ] = useState('');
 
 	const { lists, index, data } = props;
-	let card = <Card key={(index * 100).toString()} data={lists[index].cards} />;
+	let card = <Card data={lists[index].cards} />;
 
 	const handleClick = () => {
 		props.addCard(item, index);
@@ -22,7 +23,7 @@ export const List = (props) => {
 	return (
 		<span>
 			<h1>{data}</h1>
-			<Col>
+			<Col span={8}>
 				{card}
 				<InputGroup>
 					<Input
