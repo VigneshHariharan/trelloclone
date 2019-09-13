@@ -5,7 +5,7 @@ import { Col } from 'antd';
 
 import Card from './Card';
 
-export const List = (props) => {
+export const AList = (props) => {
 	const [ item, setItem ] = useState('');
 
 	const { lists, index, data } = props;
@@ -21,17 +21,26 @@ export const List = (props) => {
 	};
 
 	return (
-		<span>
-			<h1>{data}</h1>
+		<span
+			style={{
+				padding: '20px',
+				textAlign: 'start',
+				color: '#333333',
+				backgroundColor: '#73C9C3',
+				borderRadius: '5px'
+			}}
+		>
+			<p style={{ color: '#333333' }}>{data}</p>
 			<Col span={8}>
 				{card}
-				<InputGroup>
+				<InputGroup style={{ marginTop: '10px' }}>
 					<Input
 						onChange={(e) => setItem(e.target.value)}
 						onKeyPress={handleKeyPress}
 						value={item}
 						placeholder="Add a Card"
 					/>
+
 					<InputGroupAddon addonType="append">
 						<InputGroupText onClick={handleClick}>+</InputGroupText>
 					</InputGroupAddon>
@@ -60,4 +69,4 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(List);
+export default connect(mapStateToProps, mapDispatchToProps)(AList);
