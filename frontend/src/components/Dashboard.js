@@ -41,19 +41,38 @@ const Dashboard = () => {
 			id: 'column2',
 			title: 'InProgress',
 			taskIds: []
+		},
+		column3: {
+			id: 'column3',
+			title: 'Completed',
+			taskIds: []
+		},
+		column4: {
+			id: 'column4',
+			title: 'Completed',
+			taskIds: []
 		}
 	});
 
-	const [ columnOrder, setColumnOrder ] = useState([ 'column1', 'column2' ]);
+	const [ columnOrder, setColumnOrder ] = useState([ 'column1', 'column2', 'column3', 'column4' ]);
 
 	const Container = styled.div`
 		margin: 8px;
 		border-radius: 2px;
-		width: 200px;
+		${'' /* Very important minimum width to maximize the area of the droppable */} min-width: 600px;
 		display: flex;
-		flex-direction: row;
 	`;
+
+	const onDragStart = (result) => {
+		console.log(result);
+	};
+	const onDragUpdate = (result) => {
+		console.log(result);
+	};
+
 	const onDragEnd = (result) => {
+		console.log(result, 'dragend');
+
 		const { source, destination, draggableId, type } = result;
 		// if there is no destination
 		if (!destination) {
@@ -64,12 +83,14 @@ const Dashboard = () => {
 			return;
 		}
 
-		console.log(result);
 		if (type === 'column') {
 			const newColumnOrder = Array.from(columnOrder);
 			newColumnOrder.splice(source.index, 1);
 			newColumnOrder.splice(destination.index, 0, draggableId);
+			console.log('a', columnOrder);
+			console.log('b', newColumnOrder);
 			setColumnOrder(newColumnOrder);
+
 			return;
 		}
 
@@ -118,16 +139,16 @@ const Dashboard = () => {
 	};
 
 	return (
-		<DragDropContext onDragEnd={onDragEnd}>
-			<Droppable droppableId={'droppable'} direction="horizontal" type="column">
+		<DragDropContext onDragStart={onDragStart} onDragUpdate={onDragUpdate} onDragEnd={onDragEnd}>
+			<Droppable droppableId="all-columns" direction="horizontal" type="column">
 				{(provided) => {
 					return (
 						<Container {...provided.droppableProps} ref={provided.innerRef}>
 							{columnOrder.map((columnId, index) => {
 								const column = columns[columnId];
 								const task = column.taskIds.map((taskIds) => tasks[taskIds]);
-								return <Column key={index.toString()} column={column} tasks={task} index={index} />;
-							})}{' '}
+								return <Column key={column.id} column={column} tasks={task} index={index} />;
+							})}
 							{provided.placeholder}
 						</Container>
 					);

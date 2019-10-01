@@ -2,15 +2,8 @@
 	text-align: center;
 	background-color: #cfe3d8;
 }
-Content {
-	color: red;
-	display: 'flex';
-	flex-wrap: nowrap;
-	overflow-X: auto;
-}
 
-.lists {
-	flex: 0 0 auto;
-	width: 250px;
-	margin: 20px;
+.sc-ifAKCX cEuwsX {
+	width: 1000px;
+	background: red;
 }
