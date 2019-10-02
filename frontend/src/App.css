@@ -1,9 +1,44 @@
 .App {
 	text-align: center;
-	background-color: #cfe3d8;
 }
 
-.sc-ifAKCX cEuwsX {
-	width: 1000px;
-	background: red;
+.all-columns {
+	margin: 8px;
+	border-radius: 2px;
+	display: flex;
+}
+.all-tasks {
+	margin: 8px;
+	border: 1px solid black;
+	border-radius: 2px;
+	min-width: 200px;
+	display: flex;
+	flex-direction: column;
+}
+
+.task-list {
+	padding: 8px;
+	background-color: whitesmoke;
+	transition: background 1s ease;
+	min-height: 100px;
+	flex-grow: 1;
+}
+
+.task {
+	margin: 8px;
+	border: 1px solid lightgrey;
+	margin-bottom: 8px;
+	background-color: white;
+	background-color: 'lightblue';
+}
+
+.title-input {
+	border: 1px solid black;
+	padding: 20px;
+}
+
+.title-input > div {
+	margin-top: 10px;
+	display: flex;
+	justify-content: space-around;
 }

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Column from './Columns';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-import styled from 'styled-components';
+import { Button, Input, Icon } from 'antd';
+import 'antd/dist/antd.css';
 
 const Dashboard = () => {
 	const [ tasks, setTasks ] = useState({
@@ -55,24 +56,13 @@ const Dashboard = () => {
 	});
 
 	const [ columnOrder, setColumnOrder ] = useState([ 'column1', 'column2', 'column3', 'column4' ]);
+	const [ columnTitle, setColumnTitle ] = useState('');
+	const [ titleVisibility, setTitleVisibility ] = useState(false);
+	const [ task, setTask ] = useState('');
 
-	const Container = styled.div`
-		margin: 8px;
-		border-radius: 2px;
-		${'' /* Very important minimum width to maximize the area of the droppable */} min-width: 600px;
-		display: flex;
-	`;
-
-	const onDragStart = (result) => {
-		console.log(result);
-	};
-	const onDragUpdate = (result) => {
-		console.log(result);
-	};
-
+	const onDragStart = (result) => {};
+	const onDragUpdate = (result) => {};
 	const onDragEnd = (result) => {
-		console.log(result, 'dragend');
-
 		const { source, destination, draggableId, type } = result;
 		// if there is no destination
 		if (!destination) {
@@ -87,10 +77,7 @@ const Dashboard = () => {
 			const newColumnOrder = Array.from(columnOrder);
 			newColumnOrder.splice(source.index, 1);
 			newColumnOrder.splice(destination.index, 0, draggableId);
-			console.log('a', columnOrder);
-			console.log('b', newColumnOrder);
 			setColumnOrder(newColumnOrder);
-
 			return;
 		}
 
@@ -138,23 +125,75 @@ const Dashboard = () => {
 		return;
 	};
 
+	const changeTitleVisibility = () => {
+		setTitleVisibility(!titleVisibility);
+	};
+
+	const addColumn = () => {
+		// To add a column, a columnOrder and a new Column should be created to map through the tasks
+		// when a column title is added it needs to be stored in a object(id,title,taskIds)
+		// a new Column object is created to concatenate in the the columns array
+
+		const columnOrderLength = columnOrder.length + 1;
+		const column = `column${columnOrderLength}`;
+		const newColumn = {
+			id: column,
+			title: columnTitle,
+			taskIds: []
+		};
+
+		setColumnOrder([ ...columnOrder, newColumn.id ]);
+		setColumns({ ...columns, [newColumn.id]: newColumn });
+		changeTitleVisibility();
+	};
+
+	const addTask = () => {
+		setTasks(task);
+	};
+
 	return (
-		<DragDropContext onDragStart={onDragStart} onDragUpdate={onDragUpdate} onDragEnd={onDragEnd}>
-			<Droppable droppableId="all-columns" direction="horizontal" type="column">
-				{(provided) => {
-					return (
-						<Container {...provided.droppableProps} ref={provided.innerRef}>
-							{columnOrder.map((columnId, index) => {
-								const column = columns[columnId];
-								const task = column.taskIds.map((taskIds) => tasks[taskIds]);
-								return <Column key={column.id} column={column} tasks={task} index={index} />;
-							})}
-							{provided.placeholder}
-						</Container>
-					);
-				}}
-			</Droppable>
-		</DragDropContext>
+		<div>
+			<DragDropContext onDragStart={onDragStart} onDragUpdate={onDragUpdate} onDragEnd={onDragEnd}>
+				<Droppable droppableId="all-columns" direction="horizontal" type="column">
+					{(provided) => {
+						return (
+							<div className="all-columns" {...provided.droppableProps} ref={provided.innerRef}>
+								{columnOrder.map((columnId, index) => {
+									const column = columns[columnId];
+									const task = column.taskIds.map((taskIds) => tasks[taskIds]);
+									return <Column key={column.id} column={column} tasks={task} index={index} />;
+								})}
+								{provided.placeholder}
+
+								<div>
+									{titleVisibility ? (
+										<div className="title-input">
+											<Input
+												type="text"
+												onChange={(e) => setColumnTitle(e.target.value)}
+												onKeyPress={(e) => {
+													if (e.key === 'Enter') addColumn();
+												}}
+											/>
+											<div>
+												<Button onClick={addColumn} type="primary">
+													Enter title
+												</Button>
+												<Icon onClick={changeTitleVisibility} type="close-circle" />
+											</div>
+										</div>
+									) : (
+										<Button type="primary" onClick={changeTitleVisibility}>
+											Add a list
+										</Button>
+									)}
+								</div>
+							</div>
+						);
+					}}
+				</Droppable>
+			</DragDropContext>
+		</div>
 	);
 };
 
