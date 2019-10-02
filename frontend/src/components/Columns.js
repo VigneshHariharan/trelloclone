@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
+import { Button, Input, Icon } from 'antd';
 
 import Task from './Task';
 
 const Column = (props) => {
+	const [ taskVisibility, setTaskVisibility ] = useState(false);
+	const [ task, setTask ] = useState('');
+
 	return (
 		<Draggable draggableId={props.column.id} index={props.index}>
 			{(provided) => (
@@ -12,11 +16,29 @@ const Column = (props) => {
 						{props.column.title}
 					</h3>
 					<Droppable droppableId={props.column.id} type="task">
-						{(provided, snapshot) => (
+						{(provided) => (
 							<div className="task-list" {...provided.droppableProps} ref={provided.innerRef}>
-								{props.tasks.map((task, index) => (
-									<Task key={index} index={index} task={task} isDragging={snapshot.isDragging} />
-								))}
+								{props.tasks.map((task, index) => <Task key={index} index={index} task={task} />)}
+								{!taskVisibility ? (
+									<Button type="primary" onClick={setTaskVisibility}>
+										Add a task
+									</Button>
+								) : (
+									<div>
+										<Input
+											type="text"
+											className="title"
+											onChange={(e) => setTask(e.target.value)}
+										/>
+										<div>
+											<Button type="primary">Enter title</Button>
+											<Icon
+												onClick={() => setTaskVisibility(!taskVisibility)}
+												type="close-circle"
+											/>
+										</div>
+									</div>
+								)}
 								{provided.placeholder}
 							</div>
 						)}

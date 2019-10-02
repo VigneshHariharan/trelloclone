@@ -58,7 +58,6 @@ const Dashboard = () => {
 	const [ columnOrder, setColumnOrder ] = useState([ 'column1', 'column2', 'column3', 'column4' ]);
 	const [ columnTitle, setColumnTitle ] = useState('');
 	const [ titleVisibility, setTitleVisibility ] = useState(false);
-	const [ task, setTask ] = useState('');
 
 	const onDragStart = (result) => {};
 	const onDragUpdate = (result) => {};
@@ -147,9 +146,7 @@ const Dashboard = () => {
 		changeTitleVisibility();
 	};
 
-	const addTask = () => {
-		setTasks(task);
-	};
+	const addTask = () => {};
 
 	return (
 		<div>
