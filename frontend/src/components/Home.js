@@ -1,13 +1,18 @@
 import React from 'react';
-import Dashboard from "./Dashboard"
-
+import Dashboard from './Dashboard';
+import { Layout, Typography } from 'antd';
+const { Header } = Layout;
+const { Title } = Typography;
 
 const Home = () => {
-  return (<div>
+	return (
+		<div>
+			<Header className="header">
+				<Title id="trello">Trello</Title>
+			</Header>
+			<Dashboard />
+		</div>
+	);
+};
 
-    <h1>Tello</h1>
-    <Dashboard></Dashboard>
-  </div>)
-}
-
-export default Home
+export default Home;
