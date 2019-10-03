@@ -8,6 +8,10 @@ const Column = (props) => {
 	const [ taskVisibility, setTaskVisibility ] = useState(false);
 	const [ task, setTask ] = useState('');
 
+	const addTask = () => {
+		props.addTask(props.column.id, task);
+		setTaskVisibility(!taskVisibility);
+	};
 	return (
 		<Draggable draggableId={props.column.id} index={props.index}>
 			{(provided) => (
@@ -29,9 +33,15 @@ const Column = (props) => {
 											type="text"
 											className="title"
 											onChange={(e) => setTask(e.target.value)}
+											onKeyPress={(e) => {
+												if (e.key === 'Enter') addTask();
+											}}
+											autoFocus
 										/>
 										<div>
-											<Button type="primary">Enter title</Button>
+											<Button type="primary" onClick={addTask}>
+												Enter title
+											</Button>
 											<Icon
 												onClick={() => setTaskVisibility(!taskVisibility)}
 												type="close-circle"

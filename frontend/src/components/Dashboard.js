@@ -146,7 +146,24 @@ const Dashboard = () => {
 		changeTitleVisibility();
 	};
 
-	const addTask = () => {};
+	const addTask = (column, task) => {
+		// adding taskIds in the respective column of the task
+		const columnId = columns[column];
+		const taskLength = Object.keys(tasks).length + 1;
+		const newTask = {
+			id: `task${taskLength}`,
+			content: task
+		};
+
+		const newTaskIds = [ ...columnId.taskIds, [ newTask.id ] ];
+		columnId.taskIds = newTaskIds;
+		const newColumn = { ...columns, [column]: columnId };
+		setColumns(newColumn);
+
+		// creating a new task object to add in the task list object
+		const newTasks = { ...tasks, [newTask.id]: newTask };
+		setTasks(newTasks);
+	};
 
 	return (
 		<div>
@@ -158,7 +175,15 @@ const Dashboard = () => {
 								{columnOrder.map((columnId, index) => {
 									const column = columns[columnId];
 									const task = column.taskIds.map((taskIds) => tasks[taskIds]);
-									return <Column key={column.id} column={column} tasks={task} index={index} />;
+									return (
+										<Column
+											key={column.id}
+											column={column}
+											tasks={task}
+											addTask={addTask}
+											index={index}
+										/>
+									);
 								})}
 								{provided.placeholder}
 
@@ -171,6 +196,7 @@ const Dashboard = () => {
 												onKeyPress={(e) => {
 													if (e.key === 'Enter') addColumn();
 												}}
+												autoFocus
 											/>
 											<div>
 												<Button onClick={addColumn} type="primary">
