@@ -1,16 +1,17 @@
 import React from 'react';
 import Dashboard from './Dashboard';
-import { Layout, Typography } from 'antd';
-const { Header } = Layout;
-const { Title } = Typography;
+import { Layout } from 'antd';
+const { Header, Content } = Layout;
 
 const Home = () => {
 	return (
 		<div>
 			<Header className="header">
-				<Title id="trello">Trello</Title>
+				<h1 id="trello">Trello</h1>
 			</Header>
-			<Dashboard />
+			<Content className="content">
+				<Dashboard />
+			</Content>
 		</div>
 	);
 };
