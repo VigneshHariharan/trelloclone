@@ -5,11 +5,11 @@
 	"homepage": "https://vigneshhariharan.github.io/trelloclone/",
 	"dependencies": {
 		"antd": "^3.23.5",
+		"node-sass": "^4.13.0",
 		"react": "^16.9.0",
 		"react-beautiful-dnd": "^11.0.5",
 		"react-dom": "^16.9.0",
 		"react-scripts": "3.1.1",
-		"reactstrap": "^8.0.1",
 		"styled-components": "^4.4.0"
 	},
 	"scripts": {
@@ -22,7 +22,19 @@
 		"extends": "react-app"
 	},
 	"browserslist": {
-		"production": [ ">0.2%", "not dead", "not op_mini all" ],
-		"development": [ "last 1 chrome version", "last 1 firefox version", "last 1 safari version" ]
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"devDependencies": {
+		"enzyme": "^3.10.0",
+		"enzyme-adapter-react-16": "^1.15.1"
 	}
 }

@@ -1,5 +1,6 @@
 html {
 	background: rgb(246, 247, 251);
+	overflow-y: hidden;
 }
 
 body {

@@ -131,19 +131,24 @@ const Dashboard = () => {
 	const addColumn = () => {
 		// To add a column, a columnOrder and a new Column should be created to map through the tasks
 		// when a column title is added it needs to be stored in a object(id,title,taskIds)
-		// a new Column object is created to concatenate in the the columns array
+		// a new Column object is created,it needs to be concatenate in the the columns array
+		if (columnTitle.length > 0) {
+			// writing new column id by not considering the deleted elements number
+			// it is also considering the possibility of not having any columns
+			const newReference = columns ? columns[`column${columnOrder.length ? columnOrder.length : ''}`] : '';
+			const columnOrderLength = columnOrder.length ? parseInt(newReference.id[6]) : 0;
+			const column = `column${columnOrderLength + 1}`;
+			const newColumn = {
+				id: column,
+				title: columnTitle,
+				taskIds: []
+			};
 
-		const columnOrderLength = columnOrder.length + 1;
-		const column = `column${columnOrderLength}`;
-		const newColumn = {
-			id: column,
-			title: columnTitle,
-			taskIds: []
-		};
-
-		setColumnOrder([ ...columnOrder, newColumn.id ]);
-		setColumns({ ...columns, [newColumn.id]: newColumn });
-		changeTitleVisibility();
+			setColumnOrder([ ...columnOrder, newColumn.id ]);
+			setColumns({ ...columns, [newColumn.id]: newColumn });
+			changeTitleVisibility();
+			setColumnTitle('');
+		}
 	};
 
 	const addTask = (column, task) => {
@@ -165,11 +170,42 @@ const Dashboard = () => {
 		setTasks(newTasks);
 	};
 
+	const deleteTask = (task, column) => {
+		const newTasks = {};
+		//Deleting a task
+		Object.keys(tasks).map((taskObject) => {
+			if (taskObject !== task) {
+				return (newTasks[taskObject] = tasks[taskObject]);
+			}
+		});
+		setTasks(newTasks);
+
+		// removing its reference in columns object
+		const index = columns[column].taskIds.indexOf(task);
+		const newColumn = columns[column].taskIds.splice(index, 1);
+		const newColumnsObject = { ...columns, newColumn };
+		setColumns(newColumnsObject);
+	};
+
+	const deleteColumn = (column) => {
+		const newColumnOrder = columnOrder.filter((columns) => columns !== column);
+		setColumnOrder(newColumnOrder);
+
+		// making a new Column object and updating references
+		const newColumns = {};
+		Object.keys(columns).map((columnObject) => {
+			if (columnObject !== column) {
+				return (newColumns[columnObject] = columns[columnObject]);
+			}
+		});
+		setColumns(newColumns);
+	};
+
 	return (
 		<div>
 			<DragDropContext onDragStart={onDragStart} onDragUpdate={onDragUpdate} onDragEnd={onDragEnd}>
 				<Droppable droppableId="all-columns" direction="horizontal" type="column">
-					{(provided) => {
+					{(provided, index) => {
 						return (
 							<div className="all-columns" {...provided.droppableProps} ref={provided.innerRef}>
 								{columnOrder.map((columnId, index) => {
@@ -182,6 +218,8 @@ const Dashboard = () => {
 											tasks={task}
 											addTask={addTask}
 											index={index}
+											deleteTask={deleteTask}
+											deleteColumn={deleteColumn}
 										/>
 									);
 								})}
@@ -189,7 +227,7 @@ const Dashboard = () => {
 
 								<div>
 									{titleVisibility ? (
-										<div className="title-input">
+										<div className="title-input add-list-button">
 											<Input
 												type="text"
 												onChange={(e) => setColumnTitle(e.target.value)}
@@ -206,8 +244,8 @@ const Dashboard = () => {
 											</div>
 										</div>
 									) : (
-										<Button type="primary" onClick={changeTitleVisibility}>
-											Add a list
+										<Button type="primary" className="add-list" onClick={changeTitleVisibility}>
+											Add List
 										</Button>
 									)}
 								</div>

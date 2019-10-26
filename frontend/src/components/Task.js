@@ -1,5 +1,6 @@
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
+import { Icon } from 'antd';
 
 const Task = (props) => {
 	return (
@@ -12,6 +13,7 @@ const Task = (props) => {
 					ref={provided.innerRef}
 				>
 					{props.task.content}
+					<Icon type="delete" onClick={() => props.deleteTask(props.task.id, props.columnId)} />
 				</div>
 			)}
 		</Draggable>

@@ -37,6 +37,7 @@ orange :#FEB64D
 	margin: 8px;
 	border-radius: 2px;
 	display: flex;
+	max-height: 600px !important;
 }
 .all-tasks {
 	margin: 8px;
@@ -46,37 +47,77 @@ orange :#FEB64D
 	flex-direction: column;
 	box-shadow: 0 1px 3px rgba(95, 95, 95, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 	background: white;
+	padding: 0 10px;
 }
 
 .task-list {
+	border-radius: 5px;
 	padding: 8px;
-	background-color: white;
-	transition: background 1s ease;
-	min-height: 100px;
+	background-color: rgb(248, 248, 248);
+	min-height: 30px;
+	max-height: 450px;
+	overflow: auto;
 	flex-grow: 1;
-	box-shadow: 0 1px 3px rgba(95, 95, 95, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
 .task {
 	margin: 8px;
 	border: 1px solid lightgrey;
+	border-radius: 5px;
 	margin-bottom: 8px;
+	height: 40px;
 	background-color: white;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 15px;
 }
 
 .title-input {
-	border: 1px solid black;
 	padding: 20px;
+	background: white;
+	box-shadow: 0 1px 3px rgba(95, 95, 95, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+	margin: 10px 0;
+	Button {
+		width: 120px;
+	}
+}
+
+.add-list-button {
+	border-radius: 5px;
+	margin-right: 200px;
 }
 
 .title-input > div {
 	margin-top: 10px;
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
+}
+.add-card-button {
+	display: flex;
+	flex-flow: column nowrap;
+	align-content: center;
+	div {
+		padding: 0 10px;
+		align-items: center;
+	}
 }
 
 Button {
 	color: rgb(246, 247, 251) !important;
 	width: 200px;
 	border-color: white;
+}
+
+.task-add-button {
+	min-height: 60px;
+	padding: 5px;
+	margin: auto;
+	padding-top: 15px;
+}
+
+.add-list {
+	margin-top: 5px;
+	margin-left: 20px;
+	margin-right: 100px;
 }
